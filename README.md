@@ -1,1 +1,7 @@
-# Intros_Blockly-
+# Intros-Blockly
+
+To install:
+
+```
+npm install
+```
