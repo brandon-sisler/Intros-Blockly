@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Intros - Proofs by Blocks</title>
+  <script src="./node_modules/blockly/blockly_compressed.js"></script>
+  <script src="./node_modules/blockly/blocks_compressed.js"></script>
+  <script src="./node_modules/blockly/javascript_compressed.js"></script>
+  <script src="./node_modules/blockly/msg/en.js"></script>
+  <script src="./custom.js"></script>
+
+  <style>
+    body {
+      background-color: #fff;
+      font-family: sans-serif;
+    }
+    h1 {
+      font-weight: normal;
+      font-size: 140%;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- <p>Links:</p>
+  <ul>
+    <li><a href="https://developers.google.com/blockly/guides/configure/web/code-generators">Code Generators</a></li>
+    <li><a href="https://developers.google.com/blockly/guides/app-integration/running-javascript">Running JavaScript</a></li>
+    <li><a href="https://blockly-demo.appspot.com/static/demos/blockfactory/index.html">Custom block generator tool</a></p></li>
+  </ul>
+  <p>
+    <button onclick="verifyProof()" disabled>Verify Proof</button>
+  </p> -->
+
+  <div>
+    <div id="blocklyDiv" style="height: 320px; width: 1000px;"></div>
+  </div>
+  <div>
+    <textarea id="blocklyProof" style="height: 320px; width: 500px;" readonly></textarea>
+    <textarea id="blocklyCoq" style="height: 320px; width: 500px;" readonly></textarea>
+  </div>
+
+  <script>
+
+    var workspace = createWorkspace('blocklyDiv');
+
+    function updateOutput(event) {
+      var code = nlGenerator.workspaceToCode(workspace);
+      document.getElementById('blocklyProof').value = code;
+      var code = coqGenerator.workspaceToCode(workspace);
+      document.getElementById('blocklyCoq').value = code;
+    }
+    workspace.addChangeListener(updateOutput);
+    updateOutput();
+  </script>
+
+</body>
+</html>
