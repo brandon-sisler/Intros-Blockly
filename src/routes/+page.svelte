@@ -1,11 +1,18 @@
 <script lang="ts">
-    import Blockly from 'blockly';
+    import type Blockly from 'blockly';
     import BlocklyComponent from '../lib/Blockly.svelte';
+	import { onMount } from 'svelte';
     import { toolbox } from '../lib/toolbox'
+    import { nlOutput, coqOutput } from '../lib/custom.js';
     let workspace : Blockly.WorkspaceSvg;
+	onMount(async () => {
+        workspace.addChangeListener(()=>workspace=workspace);
+	});
 </script>
 
-<BlocklyComponent {toolbox} bind:workspace={workspace}/>
+<BlocklyComponent height={320} width={1200} {toolbox} bind:workspace/>
 
-<textarea id="blocklyProof" style="height: 320px; width: 500px;" readonly></textarea>
-<textarea id="blocklyCoq" style="height: 320px; width: 500px;" readonly></textarea>
+{#if workspace}
+<textarea id="blocklyProof" style="height: 320px; width: 600px;" readonly>{nlOutput(workspace)}</textarea>
+<textarea id="blocklyCoq" style="height: 320px; width: 600px;" readonly>{coqOutput(workspace)}</textarea>
+{/if}

@@ -99,7 +99,7 @@ nlGenerator['quantifier'] = function (block) {
 
 coqGenerator['quantifier'] = function (block) {
   var pred = coqGenerator.valueToCode(block, 'PREDICATE', 0);
-  result = block.getFieldValue('TYPE') + ' ' + coqGenerator.valueToCode(block, 'VARIABLE', 0) + ' : Prop, ' + pred
+  let result = block.getFieldValue('TYPE') + ' ' + coqGenerator.valueToCode(block, 'VARIABLE', 0) + ' : Prop, ' + pred
   return [result, 0]
 }
 
@@ -151,22 +151,18 @@ blockJsonArray.push(
 );
 
 nlGenerator['combination'] = function (block) {
-  if (!block.getInputTargetBlock("PROPOSITION1")) {
-    var first = "<m/>";
-  } else if (formulas.includes(block.getInputTargetBlock("PROPOSITION1").type)) {
-    var first = nlGenerator.valueToCode(block, 'PROPOSITION1', 0);
+  let result = nlGenerator.valueToCode(block, 'PROPOSITION1', 0);
+  let type = block.getFieldValue('TYPE');
+  if (type=="and") {
+    result = result + " \\wedge ";
+  } else if (type=="implies") {
+    result = result + " \\rightarrow ";
+  } else if (type=="iff") {
+    result = result + " \\leftrightarrow ";
   } else {
-    var first = '<m>' + nlGenerator.valueToCode(block, 'PROPOSITION1', 0) + '</m>';
+    result = result + " \\vee ";
   }
-  if (!block.getInputTargetBlock("PROPOSITION2")) {
-    var last = "<m/>";
-  } else if (formulas.includes(block.getInputTargetBlock("PROPOSITION2").type)) {
-    var last = nlGenerator.valueToCode(block, 'PROPOSITION2', 0);
-  } else {
-    var last = '<m>' + nlGenerator.valueToCode(block, 'PROPOSITION2', 0) + '</m>';
-  }
-  var type = block.getFieldValue('TYPE');
-  var result = first + ' ' + type + ' ' + last;
+  result = result + nlGenerator.valueToCode(block, 'PROPOSITION2', 0);
   return [result, 0]
 }
 
@@ -269,9 +265,9 @@ blockJsonArray.push(
 );
 
 nlGenerator['theorem'] = function (block) {
-  var prop = nlGenerator.valueToCode(block, 'PROPOSITION', 0);
+  let prop = nlGenerator.valueToCode(block, 'PROPOSITION', 0);
   prop = prop.trim();
-  result = '<knowl mode="theorem">\n';
+  let result = '<knowl mode="theorem">\n';
   result = result + '  <title>' + block.getFieldValue('NAME') + '</title>\n'
   result = result + '  <content>\n';
   result = result + '    <p>' + prop.charAt(0).toUpperCase() + prop.slice(1) + '.</p>\n';
@@ -329,14 +325,14 @@ blockJsonArray.push(
 );
 
 nlGenerator['intro'] = function (block) {
-  var parent = block.getSurroundParent()
-  if (parent) {
-    var prop = parent.getInputTargetBlock("PROPOSITION")
-    if (prop) {
-      return prop.nlIntro(block.getFieldValue("NAME"))
-    }
-  }
-  return "<p>Let <m>" + block.getFieldValue("NAME") + "</m> be ???</p>"
+  // var parent = block.getSurroundParent()
+  // if (parent) {
+  //   var prop = parent.getInputTargetBlock("PROPOSITION")
+  //   if (prop) {
+  //     return prop.nlIntro(block.getFieldValue("NAME"))
+  //   }
+  // }
+  return "<p>Let <m>" + block.getFieldValue("NAME") + "</m> be a proposition.</p>"
 }
 
 coqGenerator['intro'] = function (block) {
@@ -348,12 +344,17 @@ coqGenerator['intro'] = function (block) {
 blockJsonArray.push(
   {
     "type": "destruct",
-    "message0": "From %1 we have both %2 %3 and %4 %5",
+    "message0": "From %1 %2 we have both %3 %4 and %5 %6",
     "args0": [
       {
         "type": "field_input",
         "name": "ASSUMPTION",
         "text": "H"
+      },
+      {
+        "type": "input_value",
+        "name": "ASSUMPTIONPROP",
+        // "check": "combination",
       },
       {
         "type": "field_input",
@@ -382,6 +383,16 @@ blockJsonArray.push(
     "nextStatement": null,
   }
 );
+
+nlGenerator['destruct'] = function (block) {
+  let result = `<p>From <m>${nlGenerator.valueToCode(block, 'ASSUMPTIONPROP', 0)}</m> `;
+  result = result + `we have both <m>${nlGenerator.valueToCode(block, 'PROPOSITION1', 0)}</m> and <m>${nlGenerator.valueToCode(block, 'PROPOSITION2', 0)}</m>.</p>`
+  return result
+}
+
+coqGenerator['destruct'] = function (block) {
+  return `destruct ${block.getFieldValue('ASSUMPTION')} (${block.getFieldValue('HYPOTHESIS1')},${block.getFieldValue('HYPOTHESIS2')}).`;
+}
 
 
 
@@ -444,4 +455,12 @@ export function createWorkspace(div,opts) {
   workspace.render();
   workspace.addChangeListener(Blockly.Events.disableOrphans);
   return workspace
+}
+
+export function nlOutput(workspace) {
+  return nlGenerator.workspaceToCode(workspace);
+}
+
+export function coqOutput(workspace) {
+  return coqGenerator.workspaceToCode(workspace);
 }
