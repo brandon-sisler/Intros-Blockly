@@ -1,3 +1,5 @@
+import Blockly from 'blockly'
+
 let Proposition = ["Variable", "Formula"];
 let formulas = ["combination", "quantifier", "negation"]
 let blockJsonArray = [];
@@ -73,15 +75,10 @@ blockJsonArray.push(
     "inputsInline": false,
     "output": "Formula",
     "colour": 180,
-    "extensions": ["quantifierMixin"],
+    // "extensions": ["quantifierMixin"],
   }
 );
 
-Blockly.Extensions.registerMixin('quantifierMixin', {
-  nlIntro: function(p) {
-    return "<p>Let <m>" + p + "</m> be a proposition.</p>"
-  }
-});
 
 nlGenerator['quantifier'] = function (block) {
   var type = block.getFieldValue('TYPE');
@@ -149,15 +146,9 @@ blockJsonArray.push(
     "inputsInline": true,
     "output": "Formula",
     "colour": 65,
-    "extensions": ["combinationMixin"]
+    // "extensions": ["combinationMixin"]
   }
 );
-
-Blockly.Extensions.registerMixin('combinationMixin', {
-  nlIntro: function(h) {
-    return "<p>Let <m>" + h + "</m> be the assumpton that " + nlGenerator.valueToCode(this, 'PROPOSITION1' ,0) + ".</p>"
-  }
-});
 
 nlGenerator['combination'] = function (block) {
   if (!block.getInputTargetBlock("PROPOSITION1")) {
@@ -230,6 +221,17 @@ coqGenerator['negation'] = function (block) {
   return [result, 0]
 }
 
+// // TODO
+// Blockly.Extensions.registerMixin('quantifierMixin', {
+//   nlIntro: function(p) {
+//       return "<p>Let <m>" + p + "</m> be a proposition.</p>"
+//   }
+// });
+// Blockly.Extensions.registerMixin('combinationMixin', {
+//   nlIntro: function(h) {
+//       return "<p>Let <m>" + h + "</m> be the assumpton that " + nlGenerator.valueToCode(this, 'PROPOSITION1' ,0) + ".</p>"
+//   }
+// });
 
 
 blockJsonArray.push(
@@ -431,47 +433,10 @@ coqGenerator.INDENT = " ".repeat(0)
 
 Blockly.common.defineBlocksWithJsonArray(blockJsonArray);
 
-var toolbox = {
-  'kind': 'flyoutToolbox',
-  'contents': [
-    {
-      'kind': 'block',
-      'type': 'variable'
-    },
-    {
-      'kind': 'block',
-      'type': 'quantifier'
-    },
-    {
-      'kind': 'block',
-      'type': 'combination'
-    },
-    {
-      'kind': 'block',
-      'type': 'negation'
-    },
-    {
-      'kind': 'block',
-      'type': 'intro'
-    },
-    {
-      'kind': 'block',
-      'type': 'destruct'
-    },
-    {
-      'kind': 'block',
-      'type': 'conj'
-    },
-  ]
-}
 
 
-function createWorkspace(div) {
-  var workspace = Blockly.inject(div,
-    {
-      media: 'https://unpkg.com/blockly/media/',
-      toolbox: toolbox
-    });
+export function createWorkspace(div,opts) {
+  var workspace = Blockly.inject(div,opts);
   var startBlock = workspace.newBlock("theorem");
   startBlock.setDeletable(false);
   startBlock.setMovable(false);
