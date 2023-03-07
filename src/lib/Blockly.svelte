@@ -9,6 +9,8 @@
     let blocklyContainer : HTMLElement;
     let mounted = false;
 	onMount(async () => {
+        blocklyContainer.style.height = `${height}px`
+        blocklyContainer.style.width = `${width}px`
         workspace = createWorkspace(blocklyContainer,{toolbox:toolbox});
         mounted = true;
 	});
@@ -23,6 +25,6 @@
 
 <style scoped>
     .blocklyContainer {
-        border: 1px solid black;
+        border: 1px solid #aaa;
     }
 </style>
