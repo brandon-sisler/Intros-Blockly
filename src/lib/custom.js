@@ -1,40 +1,9 @@
-import Blockly from 'blockly'
 
-let Proposition = ["Variable", "Formula"];
-let formulas = ["combination", "quantifier", "negation"]
-let blockJsonArray = [];
-const nlGenerator = new Blockly.Generator('natural_language');
+
 const coqGenerator = new Blockly.Generator('coq');
 
-const snake_case = (str = '') => {
-  const strArr = str.split(' ');
-  const snakeArr = strArr.reduce((acc, val) => {
-     return acc.concat(val.toLowerCase());
-  }, []);
-  return snakeArr.join('_');
-};
 
 
-
-blockJsonArray.push(
-  {
-    "type": "variable",
-    "message0": "%1",
-    "args0": [
-      {
-        "type": "field_input",
-        "name": "NAME",
-        "text": "P"
-      },
-    ],
-    "output": "Variable",
-    "colour": 270,
-  }
-);
-
-nlGenerator['variable'] = function (block) {
-  return [block.getFieldValue('NAME'), 0];
-}
 
 coqGenerator['variable'] = function (block) {
   return [block.getFieldValue('NAME'), 0];
@@ -42,42 +11,6 @@ coqGenerator['variable'] = function (block) {
 
 
 
-blockJsonArray.push(
-  {
-    "type": "quantifier",
-    "message0": "%1 %2 %3",
-    "args0": [
-      {
-        "type": "field_dropdown",
-        "name": "TYPE",
-        "options": [
-          [
-            "∀",
-            "forall"
-          ],
-          [
-            "∃",
-            "exists"
-          ]
-        ]
-      },
-      {
-        "type": "input_value",
-        "name": "VARIABLE",
-        "check": "Variable"
-      },
-      {
-        "type": "input_value",
-        "name": "PREDICATE",
-        "check": Proposition
-      }
-    ],
-    "inputsInline": false,
-    "output": "Formula",
-    "colour": 180,
-    // "extensions": ["quantifierMixin"],
-  }
-);
 
 
 nlGenerator['quantifier'] = function (block) {
@@ -103,52 +36,6 @@ coqGenerator['quantifier'] = function (block) {
   return [result, 0]
 }
 
-
-
-blockJsonArray.push(
-  {
-    "type": "combination",
-    "message0": "%1 %2 %3",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "PROPOSITION1",
-        "check": Proposition,
-      },
-      {
-        "type": "field_dropdown",
-        "name": "TYPE",
-        "options": [
-          [
-            "∧",
-            "and"
-          ],
-          [
-            "∨",
-            "or"
-          ],
-          [
-            "→",
-            "implies"
-          ],
-          [
-            "↔",
-            "iff"
-          ],
-        ]
-      },
-      {
-        "type": "input_value",
-        "name": "PROPOSITION2",
-        "check": Proposition,
-      },
-    ],
-    "inputsInline": true,
-    "output": "Formula",
-    "colour": 65,
-    // "extensions": ["combinationMixin"]
-  }
-);
 
 nlGenerator['combination'] = function (block) {
   let result = nlGenerator.valueToCode(block, 'PROPOSITION1', 0);
@@ -183,24 +70,6 @@ coqGenerator['combination'] = function (block) {
 
 
 
-blockJsonArray.push(
-  {
-    "type": "negation",
-    "message0": "¬ %1",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "PROPOSITION",
-        "check": Proposition,
-      },
-    ],
-    "inputsInline": true,
-    "output": "Formula",
-    "colour": 0,
-    "helpUrl": ""
-  }
-);
-
 nlGenerator['negation'] = function (block) {
   if (!block.getInputTargetBlock("PROPOSITION")) {
     var result = "<m>\\neg</m>";
@@ -231,37 +100,7 @@ coqGenerator['negation'] = function (block) {
 
 
 blockJsonArray.push(
-  {
-    "type": "theorem",
-    "message0": "Theorem %1 %2",
-    "args0": [
-      {
-        "type": "field_input",
-        "name": "NAME",
-        "text": "My Theorem",
-      },
-      {
-        "type": "input_value",
-        "name": "PROPOSITION",
-        "check": Proposition,
-      }
-    ],
-    "message1": "Proof %1",
-    "args1": [
-      {
-        "type": "input_statement",
-        "name": "ARGUMENT"
-      }
-    ],
-    "message2": "Q.E.D. %1",
-    "args2": [
-      {
-        "type": "input_dummy",
-        "align": "RIGHT",
-      }
-    ],
-    "colour": 230,
-  }
+
 );
 
 nlGenerator['theorem'] = function (block) {
@@ -288,41 +127,6 @@ coqGenerator['theorem'] = function (block) {
 
 
 
-blockJsonArray.push(
-  {
-    "type": "intro",
-    "message0": "Let %1 be the %2 %3",
-    "args0": [
-      {
-        "type": "field_input",
-        "name": "NAME",
-        "text": "P"
-      },
-      {
-        "type": "field_dropdown",
-        "name": "TYPE",
-        "options": [
-          [
-            "proposition",
-            "forall"
-          ],
-          [
-            "assumption that",
-            "implies"
-          ]
-        ]
-      },
-      {
-        "type": "input_value",
-        "name": "PROPOSITION",
-        "check": Proposition,
-      }
-    ],
-    "colour": 120,
-    "previousStatement": null,
-    "nextStatement": null,
-  }
-);
 
 nlGenerator['intro'] = function (block) {
   // var parent = block.getSurroundParent()
@@ -341,49 +145,6 @@ coqGenerator['intro'] = function (block) {
 
 
 
-blockJsonArray.push(
-  {
-    "type": "destruct",
-    "message0": "From %1 %2 we have both %3 %4 and %5 %6",
-    "args0": [
-      {
-        "type": "field_input",
-        "name": "ASSUMPTION",
-        "text": "H"
-      },
-      {
-        "type": "input_value",
-        "name": "ASSUMPTIONPROP",
-        // "check": "combination",
-      },
-      {
-        "type": "field_input",
-        "name": "HYPOTHESIS1",
-        "text": "HP"
-      },
-      {
-        "type": "input_value",
-        "name": "PROPOSITION1",
-        "check": Proposition,
-      },
-      {
-        "type": "field_input",
-        "name": "HYPOTHESIS2",
-        "text": "HQ"
-      },
-      {
-        "type": "input_value",
-        "name": "PROPOSITION2",
-        "check": Proposition,
-      }
-    ],
-    "inputsInline": true,
-    "colour": 70,
-    "previousStatement": null,
-    "nextStatement": null,
-  }
-);
-
 nlGenerator['destruct'] = function (block) {
   let result = `<p>From <m>${nlGenerator.valueToCode(block, 'ASSUMPTIONPROP', 0)}</m> `;
   result = result + `we have both <m>${nlGenerator.valueToCode(block, 'PROPOSITION1', 0)}</m> and <m>${nlGenerator.valueToCode(block, 'PROPOSITION2', 0)}</m>.</p>`
@@ -396,31 +157,6 @@ coqGenerator['destruct'] = function (block) {
 
 
 
-blockJsonArray.push(
-  {
-    "type": "conj",
-    "message0": "From both %1 and %2 we have %3",
-    "args0": [
-      {
-        "type": "field_input",
-        "name": "HYPOTHESIS1",
-        "text": "HP"
-      },
-      {
-        "type": "field_input",
-        "name": "HYPOTHESIS2",
-        "text": "HQ"
-      },
-      {
-        "type": "input_value",
-        "name": "CONJUNCTION",
-      },
-    ],
-    "colour": 30,
-    "previousStatement": null,
-    "nextStatement": null,
-  }
-);
 
 
 nlGenerator.scrub_ = function(block, code, thisOnly) {
@@ -442,20 +178,10 @@ coqGenerator.scrub_  = function(block, code, thisOnly) {
 nlGenerator.INDENT = " ".repeat(4)
 coqGenerator.INDENT = " ".repeat(0)
 
-Blockly.common.defineBlocksWithJsonArray(blockJsonArray);
 
 
 
-export function createWorkspace(div,opts) {
-  var workspace = Blockly.inject(div,opts);
-  var startBlock = workspace.newBlock("theorem");
-  startBlock.setDeletable(false);
-  startBlock.setMovable(false);
-  startBlock.initSvg();
-  workspace.render();
-  workspace.addChangeListener(Blockly.Events.disableOrphans);
-  return workspace
-}
+
 
 export function nlOutput(workspace) {
   return nlGenerator.workspaceToCode(workspace);

@@ -1,6 +1,6 @@
 <script lang="ts">
-    import Blockly from 'blockly';
-    import { createWorkspace } from './custom';
+    import Blockly from './blockly';
+    import { createWorkspace } from './blockly';
 	import { onMount } from 'svelte';
     export let toolbox : Blockly.utils.toolbox.ToolboxDefinition;
     export let width : number = 800;

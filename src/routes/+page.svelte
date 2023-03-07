@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type Blockly from 'blockly';
+    import type Blockly from '../lib/blockly';
     import BlocklyComponent from '../lib/Blockly.svelte';
 	import { onMount } from 'svelte';
-    import { toolbox } from '../lib/toolbox'
+    import { toolbox } from '../lib/blockly/toolbox'
     import { nlOutput, coqOutput } from '../lib/custom.js';
     let workspace : Blockly.WorkspaceSvg;
 	onMount(async () => {
