@@ -38,7 +38,7 @@ class CoqGenerator extends Blockly.CodeGenerator {
           this.valueToCode(block, 'PROPOSITION', 0).trim() + ".\n" +
           "Proof.\n" +
           this.statementToCode(block, 'ARGUMENT') +
-          "Qed.\n"
+          "\nQed.\n"
     }
 
     intro = (block:Blockly.Block) => {
