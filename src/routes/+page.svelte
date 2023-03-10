@@ -3,8 +3,8 @@
     import BlocklyComponent from '../lib/Blockly.svelte';
 	import { onMount } from 'svelte';
     import { toolbox } from '../lib/blockly/toolbox';
-    import SpatextGenerator from '../lib/blockly/generators/naturalLanguage'
-    // import { nlOutput, coqOutput } from '../lib/custom.js';
+    import SpatextGenerator from '../lib/blockly/generators/Spatext'
+    import CoqGenerator from '../lib/blockly/generators/Coq'
     let workspace : Blockly.WorkspaceSvg;
 	onMount(async () => {
         workspace.addChangeListener(()=>workspace=workspace);
@@ -15,5 +15,5 @@
 
 {#if workspace}
 <textarea id="blocklyProof" style="height: 320px; width: 600px;" readonly>{SpatextGenerator.workspaceToCode(workspace)}</textarea>
-<!-- <textarea id="blocklyCoq" style="height: 320px; width: 600px;" readonly>{coqOutput(workspace)}</textarea> -->
+<textarea id="blocklyCoq" style="height: 320px; width: 600px;" readonly>{CoqGenerator.workspaceToCode(workspace)}</textarea>
 {/if}
