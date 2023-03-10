@@ -1,5 +1,5 @@
 import Blockly from ".."
-import { formulas } from "../utils"
+import { formulas } from "../types"
 
 class SpatextGenerator extends Blockly.CodeGenerator {
     variable = (block:Blockly.Block) => {

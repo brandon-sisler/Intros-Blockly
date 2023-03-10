@@ -1,4 +1,4 @@
-import {Proposition} from '../utils'
+import {Proposition} from '../types'
 
 export default {
   "type": "quantifier",
