@@ -44,7 +44,6 @@ class CoqGenerator extends Blockly.CodeGenerator {
         return 'intro ' + block.getFieldValue('NAME') +".";
     }
         
-    // ITS THIS RIGHT HERE!
     exact= (block:Blockly.Block) => {
         return 'exact ' + block.getFieldValue('NAME') +".";
     }
