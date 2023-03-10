@@ -43,6 +43,10 @@ class CoqGenerator extends Blockly.CodeGenerator {
     intro = (block:Blockly.Block) => {
         return 'intro ' + block.getFieldValue('NAME') +".";
     }
+        
+    exact= (block:Blockly.Block) => {
+        return 'exact ' + block.getFieldValue('NAME') +".";
+    }
     
     destruct = (block:Blockly.Block) => {
         return `destruct ${block.getFieldValue('ASSUMPTION')} (${block.getFieldValue('HYPOTHESIS1')},${block.getFieldValue('HYPOTHESIS2')}).`;
