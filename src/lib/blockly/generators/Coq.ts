@@ -37,7 +37,8 @@ class CoqGenerator extends Blockly.CodeGenerator {
         return "Theorem " + snake_case(block.getFieldValue('NAME')) + " : " +
           this.valueToCode(block, 'PROPOSITION', 0).trim() + ".\n" +
           "Proof.\n" +
-          this.statementToCode(block, 'ARGUMENT')
+          this.statementToCode(block, 'ARGUMENT') +
+          "\nQed.\n"
     }
 
     intro = (block:Blockly.Block) => {
