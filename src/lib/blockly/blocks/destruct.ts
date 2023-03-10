@@ -36,7 +36,7 @@ export default {
     }
   ],
   "inputsInline": true,
-  "colour": 70,
+  "colour": 90,
   "previousStatement": null,
   "nextStatement": null,
 }

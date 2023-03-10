@@ -31,5 +31,5 @@ export default {
   ],
   "inputsInline": false,
   "output": "Formula",
-  "colour": 180,
+  "colour": 210,
 }

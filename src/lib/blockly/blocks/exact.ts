@@ -12,6 +12,6 @@ export default {
     ],
     "inputsInline": true,
     "output": "Formula",
-    "colour": 250,
+    "colour": 120,
     "helpUrl": ""
 }
