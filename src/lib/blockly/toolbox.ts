@@ -29,5 +29,9 @@ export default {
         'kind': 'block',
         'type': 'conj'
       },
+      {
+        'kind': 'block',
+        'type': 'exact'
+      },
     ]
   }

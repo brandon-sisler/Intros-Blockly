@@ -7,6 +7,7 @@ import negation from './blocks/negation';
 import quantifier from './blocks/quantifier';
 import theorem from './blocks/theorem';
 import variable from './blocks/variable';
+import exact from './blocks/exact';
 
 Blockly.common.defineBlocksWithJsonArray([
     combination,
@@ -16,7 +17,8 @@ Blockly.common.defineBlocksWithJsonArray([
     negation,
     quantifier,
     theorem,
-    variable
+    variable,
+    exact
 ]);
 
 export default Blockly
