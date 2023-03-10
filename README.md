@@ -36,3 +36,19 @@ npm run build
 You can preview the production build with `npm run preview`.
 
 > To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+
+## Deploying
+
+The app is deployed as a client-side "single page app" hosted by GitHub pages, by committing
+files to the `/docs` directory.
+
+After running the above build, the app is located in your `/build` directory. To update `/docs`:
+
+```
+rm -rf docs/*
+touch docs/.nojekyll # so GitHub Pages knows the site is static, not https://jekyllrb.com/
+cp -r build/* docs/
+```
+
+Then add/commit/push your repository to update the public app. (You can update your Git
+repo without updating the public app as long as you don't change the contents of `/docs`.)
