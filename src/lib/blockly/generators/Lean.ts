@@ -42,11 +42,11 @@ class LeanGenerator extends Blockly.CodeGenerator {
     }
 
     intro = (block:Blockly.Block) => {
-        return 'intro ' + block.getFieldValue('NAME') +".";
+        return 'intro ' + block.getFieldValue('NAME') +",";
     }
         
     exact= (block:Blockly.Block) => {
-        return 'exact ' + block.getFieldValue('NAME') +".";
+        return 'exact ' + block.getFieldValue('NAME') +",";
     }
     
     destruct = (block:Blockly.Block) => {
@@ -65,4 +65,4 @@ class LeanGenerator extends Blockly.CodeGenerator {
     INDENT = " ".repeat(0)
 }
 
-export default new LeanGenerator("Coq")
+export default new LeanGenerator("Lean")
