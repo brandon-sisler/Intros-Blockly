@@ -10,7 +10,6 @@ export default {
         "check": Proposition,
       },
     ],
-    "inputsInline": true,
     "output": "Formula",
     "colour": 180,
     "helpUrl": ""

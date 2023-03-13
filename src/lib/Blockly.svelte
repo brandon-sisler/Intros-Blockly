@@ -3,20 +3,20 @@
     import { createWorkspace } from './blockly';
 	import { onMount } from 'svelte';
     export let toolbox : Blockly.utils.toolbox.ToolboxDefinition;
-    export let width : number = 800;
-    export let height : number = 600;
+    export let width : string = "800px";
+    export let height : string = "600px";
     export let workspace : Blockly.WorkspaceSvg;
     let blocklyContainer : HTMLElement;
     let mounted = false;
 	onMount(async () => {
-        blocklyContainer.style.height = `${height}px`
-        blocklyContainer.style.width = `${width}px`
+        blocklyContainer.style.height = height
+        blocklyContainer.style.width = width
         workspace = createWorkspace(blocklyContainer,{toolbox:toolbox});
         mounted = true;
 	});
     $: if (mounted) {
-        blocklyContainer.style.height = `${height}px`
-        blocklyContainer.style.width = `${width}px`
+        blocklyContainer.style.height = height
+        blocklyContainer.style.width = width
         Blockly.svgResize(workspace);
     }
 </script>

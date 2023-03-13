@@ -1,7 +1,18 @@
 import Blockly from ".."
-import { formulas } from "../types"
 
 class SpatextGenerator extends Blockly.CodeGenerator {
+    _outputType = (block:Blockly.Block|null):"math"|"language"|null => {
+        if (block === null) {
+            return null
+        } else if (block.type === "quantifier") {
+            return "language"
+        } else if ( block.type === "negation") {
+            return this._outputType(block.getInputTargetBlock("PROPOSITION"))
+        } else {
+            return "math"
+        }
+    }
+
     variable = (block:Blockly.Block) => {
         return [block.getFieldValue('NAME'),0]
     }
@@ -18,7 +29,11 @@ class SpatextGenerator extends Blockly.CodeGenerator {
         } else {
             result = result + ' such that '
         }
-        result = result + this.valueToCode(block, 'PREDICATE', 0);
+        if (this._outputType(block.getInputTargetBlock("PREDICATE")) === "math") {
+            result = result + "<m>" + this.valueToCode(block, 'PREDICATE', 0) + "</m>";
+        } else {
+            result = result + this.valueToCode(block, 'PREDICATE', 0);
+        }
         return [result, 0]
     }
 
@@ -40,12 +55,10 @@ class SpatextGenerator extends Blockly.CodeGenerator {
 
     negation = (block:Blockly.Block) => {
         let result:string
-        if (!block.getInputTargetBlock("PROPOSITION")) {
-            result = "<m>\\neg</m>";
-        } else if (formulas.includes(block.getInputTargetBlock("PROPOSITION")!.type)) {
-            result = "not "+this.valueToCode(block, 'PROPOSITION', 0);
+        if (this._outputType(block.getInputTargetBlock("PROPOSITION")) === "math") {
+            result = "\\neg "+this.valueToCode(block, 'PROPOSITION', 0);
         } else {
-            result = '<m>\\neg ' + this.valueToCode(block, 'PROPOSITION', 0) + '</m>';
+            result = 'it is false that ' + this.valueToCode(block, 'PROPOSITION', 0);
         }
         return [result, 0]
     }
@@ -54,25 +67,18 @@ class SpatextGenerator extends Blockly.CodeGenerator {
         let prop = this.valueToCode(block, 'PROPOSITION', 0);
         prop = prop.trim();
         let result = '<knowl mode="theorem">\n';
-        result = result + '  <title>' + block.getFieldValue('NAME') + '</title>\n'
-        result = result + '  <content>\n';
-        result = result + '    <p>' + prop.charAt(0).toUpperCase() + prop.slice(1) + '.</p>\n';
-        result = result + '  </content>\n';
-        result = result + '  <outtro>\n';
+        result = result + '    <title>' + block.getFieldValue('NAME') + '</title>\n'
+        result = result + '    <content>\n';
+        result = result + '        <p>' + prop.charAt(0).toUpperCase() + prop.slice(1) + '.</p>\n';
+        result = result + '    </content>\n';
+        result = result + '    <outtro>\n';
         result = result + this.statementToCode(block, 'ARGUMENT') + "\n";
-        result = result + '  </outtro>\n';
+        result = result + '    </outtro>\n';
         result = result + '</knowl>';
         return result
     }
 
     intro = (block:Blockly.Block) => {
-        // var parent = block.getSurroundParent()
-        // if (parent) {
-        //   var prop = parent.getInputTargetBlock("PROPOSITION")
-        //   if (prop) {
-        //     return prop.nlIntro(block.getFieldValue("NAME"))
-        //   }
-        // }
         return "<p>Let <m>" + block.getFieldValue("NAME") + "</m> be a proposition.</p>"
     }
         
