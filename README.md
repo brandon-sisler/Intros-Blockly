@@ -40,11 +40,10 @@ You can preview the production build with `npm run preview`.
 ## Deploying
 
 The app is deployed as a client-side "single page app" hosted by GitHub pages, by committing
-files to the `/docs` directory.
-
-After running the above build, the app is located in your `/build` directory. To update `/docs`:
+files to the `/docs` directory. To update `/docs` with the latest build:
 
 ```
+npm run build # if necessary
 rm -rf docs/*
 touch docs/.nojekyll # so GitHub Pages knows the site is static, not https://jekyllrb.com/
 cp -r build/* docs/
