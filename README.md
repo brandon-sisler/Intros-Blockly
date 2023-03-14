@@ -16,7 +16,13 @@ npm create svelte@latest my-app
 
 ## Developing
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+Once you've created a project and installed/dupated dependencies with 
+
+```bash
+npm install
+```
+
+start a development server:
 
 ```bash
 npm run dev -- --host
@@ -30,6 +36,7 @@ npm run dev -- --host --open
 To create a production version of your app:
 
 ```bash
+npm install # to ensure dependencies are updated
 npm run build
 ```
 
