@@ -50,7 +50,7 @@ class CoqGenerator extends Blockly.CodeGenerator {
     }
     
     destruct = (block:Blockly.Block) => {
-        return `destruct ${block.getFieldValue('ASSUMPTION')} (${block.getFieldValue('HYPOTHESIS1')},${block.getFieldValue('HYPOTHESIS2')}).`;
+        return `destruct ${block.getFieldValue('ASSUMPTION')}  as [${block.getFieldValue('HYPOTHESIS1')} ${block.getFieldValue('HYPOTHESIS2')}].`;
       
     }
     scrub_ = (block:Blockly.Block,code:string,thisOnly:boolean) => {
