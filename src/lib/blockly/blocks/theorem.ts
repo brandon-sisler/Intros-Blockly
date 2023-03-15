@@ -29,5 +29,5 @@ export default {
         "align": "RIGHT",
       }
     ],
-    "colour": 230,
+    "colour": 240,
 }

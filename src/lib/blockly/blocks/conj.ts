@@ -17,7 +17,7 @@ export default {
         "name": "CONJUNCTION",
       },
     ],
-    "colour": 40,
+    "colour": 0,
     "previousStatement": null,
     "nextStatement": null,
   }

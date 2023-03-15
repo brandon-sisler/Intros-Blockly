@@ -12,6 +12,6 @@ export default {
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": 120,
+    "colour": 240,
     "helpUrl": ""
 }

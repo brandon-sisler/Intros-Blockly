@@ -39,6 +39,6 @@ export default {
     ],
     "inputsInline": true,
     "output": "Formula",
-    "colour": 270,
+    "colour": 165,
     // "extensions": ["combinationMixin"]
   }

@@ -29,7 +29,7 @@ export default {
       "check": Proposition,
     }
   ],
-  "colour": 150,
+  "colour": 270,
   "previousStatement": null,
   "nextStatement": null,
 }

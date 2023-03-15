@@ -9,5 +9,5 @@ export default {
     },
   ],
   "output": "Variable",
-  "colour": 260,
+  "colour": 210,
 }

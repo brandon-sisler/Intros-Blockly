@@ -11,6 +11,6 @@ export default {
       },
     ],
     "output": "Formula",
-    "colour": 180,
+    "colour": 300,
     "helpUrl": ""
 }
