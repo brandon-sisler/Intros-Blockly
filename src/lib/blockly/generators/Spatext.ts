@@ -92,6 +92,11 @@ class SpatextGenerator extends Blockly.CodeGenerator {
         return result
     }
     
+    conj = (block:Blockly.Block) => {
+        return `<p>From both <m>${block.getFieldValue('HYPOTHESIS1')}</m> and `+
+            `<m>${block.getFieldValue('HYPOTHESIS2')}</m> we have <m>...</m>.`;
+    }
+    
     scrub_ = (block:Blockly.Block,code:string,thisOnly:boolean) => {
         const nextBlock = block.nextConnection && block.nextConnection.targetBlock();
         if (nextBlock && !thisOnly) {
