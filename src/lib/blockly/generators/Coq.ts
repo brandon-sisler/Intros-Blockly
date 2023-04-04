@@ -42,7 +42,10 @@ class CoqGenerator extends Blockly.CodeGenerator {
     }
 
     intro = (block:Blockly.Block) => {
-        return 'intro ' + block.getFieldValue('NAME') +".";
+        let result = 'intro ' + block.getFieldValue('NAME') +".";
+        result = result + "\n" + "assert "+this.valueToCode(block, "PROPOSITION", 0)+ "." + " exact"
+        +this.valueToCode(block, "PROPOSITION", 0)+;
+        return result
     }
         
     exact= (block:Blockly.Block) => {
@@ -55,7 +58,11 @@ class CoqGenerator extends Blockly.CodeGenerator {
     }
 
     conj = (block:Blockly.Block) => {
-        return `apply (conj (${block.getFieldValue('HYPOTHESIS1')}) (${block.getFieldValue('HYPOTHESIS2')})).`;
+        let result = `apply (conj (${block.getFieldValue('HYPOTHESIS1')}) (${block.getFieldValue('HYPOTHESIS2')})).`
+        + "\n" + "assert" + this.valueToCode(block, "PROPOSITION", 0)+ + 
+        `split. exact ${block.getFieldValue('HYPOTHESIS1')}. 
+        exact ${block.getFieldValue('HYPOTHESIS2')}.`;
+        return result ; 
     }
 
     scrub_ = (block:Blockly.Block,code:string,thisOnly:boolean) => {
