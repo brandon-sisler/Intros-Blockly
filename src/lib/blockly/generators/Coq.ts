@@ -42,9 +42,8 @@ class CoqGenerator extends Blockly.CodeGenerator {
     }
 
     intro = (block:Blockly.Block) => {
-        let result = 'intro ' + block.getFieldValue('NAME') +".";
-        result = result + "\n" + "assert "+this.valueToCode(block, "PROPOSITION", 0)+ "." + " exact"
-        +this.valueToCode(block, "PROPOSITION", 0);
+        let result = 'intro.\n'
+        result += "    assert (_IBH_ : "+this.valueToCode(block, "PROPOSITION", 0)+ " = "+ this.valueToCode(block, "PROPOSITION", 0) + "). reflexivity. destruct _IBH_."
         return result
     }
         
