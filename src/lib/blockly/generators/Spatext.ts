@@ -79,7 +79,7 @@ class SpatextGenerator extends Blockly.CodeGenerator {
     }
 
     intro = (block:Blockly.Block) => {
-        return "<p>Let <m>" + block.getFieldValue("NAME") + "</m> be a proposition.</p>"
+        return "<p>Let <m>" + this.valueToCode(block, 'PROPOSITION', 0) + "</m> be a proposition.</p>"
     }
         
     exact= (block:Blockly.Block) => {
